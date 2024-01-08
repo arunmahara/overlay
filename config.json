@@ -1,0 +1,8 @@
+{
+    "S3_ACCESS_KEY": "access_key",
+    "S3_ACCESS_SECRET": "secret_key",
+    "S3_BUCKET": "bucket_name",
+    "S3_REGION": "region",
+    "S3_DOCUMENT_FOLDER": "overlay",
+    "DOC_LINK_EXPIRY_SECS": 600
+}

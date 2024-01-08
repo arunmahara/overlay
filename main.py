@@ -1,6 +1,7 @@
 import json
 
 from fastapi import FastAPI, UploadFile, HTTPException, File, Depends
+from fastapi.responses import FileResponse
 
 from overlay import overlay_images
 from s3 import get_signed_url, upload_file_to_s3
@@ -31,13 +32,14 @@ async def overlay(
         save_upload_file(background_image, bg_path)
         save_upload_file(overlay_image, ov_path)
 
-        with temporary_files(bg_path, ov_path, output_path):
-            overlay_images(bg_path, ov_path, output_path)
+        # with temporary_files(bg_path, ov_path, output_path):
+        overlay_images(bg_path, ov_path, output_path)
 
-            s3_key = upload_file_to_s3(output_path, output_image_name, config)
-            url = get_signed_url(s3_key, config)
+        # s3_key = upload_file_to_s3(output_path, output_image_name, config)
+        # url = get_signed_url(s3_key, config)
+        print(f"Overlayed successfully to {output_path}")
 
-            return {"url": url}
+        return FileResponse(output_path, media_type="image/jpeg", filename="overlay_result.jpg")
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
