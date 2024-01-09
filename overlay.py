@@ -10,13 +10,13 @@ def overlay_images(bg_path: str, ov_path: str, output_path: str) -> None:
         overlay = cv2.imread(ov_path)
 
         # Resize images
-        W = 800
+        W = 750
         imgScale = W / background.shape[1]
         new_background = cv2.resize(
             background, (int(background.shape[1] * imgScale),
                          int(background.shape[0] * imgScale)))
 
-        W = 350
+        W = 700  # Increase this value to make the overlay image bigger
         imgScale = W / overlay.shape[1]
         new_overlay = cv2.resize(overlay, (int(overlay.shape[1] * imgScale), int(overlay.shape[0] * imgScale)))
 
@@ -24,11 +24,11 @@ def overlay_images(bg_path: str, ov_path: str, output_path: str) -> None:
         square = np.zeros_like(new_background)
         square.fill(255)
 
-        # Overlay images
-        offset = 0
+        # Adjust the offset for making the overlay image bigger from the left side
+        offset = 0  # You can adjust this value to make it bigger or smaller
         y, x, _ = new_background.shape
         square[int(y - new_overlay.shape[0]) - offset:int(y) - offset,
-               int(x - new_overlay.shape[1]) - offset:int(x) - offset] = new_overlay
+               :new_overlay.shape[1]] = new_overlay
 
         # Overlay with specified opacity
         OPACITY = 0.7

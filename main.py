@@ -1,7 +1,7 @@
 import json
 
-from fastapi import FastAPI, UploadFile, HTTPException, File, Depends
 from fastapi.responses import FileResponse
+from fastapi import FastAPI, UploadFile, HTTPException, File, Depends
 
 from overlay import overlay_images
 from s3 import get_signed_url, upload_file_to_s3
@@ -37,6 +37,7 @@ async def overlay(
 
             s3_key = upload_file_to_s3(output_path, output_image_name, config)
             url = get_signed_url(s3_key, config)
+
             return {"url": url}
 
     except Exception as e:
