@@ -18,21 +18,19 @@ def load_config():
 
 @app.post("/overlay/")
 async def overlay(
-    background_image: UploadFile = File(...),
-    overlay_image: UploadFile = File(...),
+    user_image: UploadFile = File(...),
     config=Depends(load_config)
 ):
     try:
         TMP_PATH = get_tmp_path()
-        bg_path = f"{TMP_PATH}/{background_image.filename}"
-        ov_path = f"{TMP_PATH}/{overlay_image.filename}"
+        bg_path = f"{TMP_PATH}/{user_image.filename}"
+        ov_path = "overlay_image.png"
         output_image_name = f"OVERLAY_{get_char_uuid(10)}.jpg"
         output_path = f"{TMP_PATH}/{output_image_name}"
 
-        save_upload_file(background_image, bg_path)
-        save_upload_file(overlay_image, ov_path)
+        save_upload_file(user_image, bg_path)
 
-        with temporary_files(bg_path, ov_path, output_path):
+        with temporary_files(bg_path, output_path):
             overlay_images(bg_path, ov_path, output_path)
 
             s3_key = upload_file_to_s3(output_path, output_image_name, config)
