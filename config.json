@@ -1,8 +1,0 @@
-{
-    "S3_ACCESS_KEY": "AKIAW2K4CZJKPHADS67C",
-    "S3_ACCESS_SECRET": "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",
-    "S3_BUCKET": "kredmani-docs",
-    "S3_REGION": "ap-south-1",
-    "S3_DOCUMENT_FOLDER": "overlay",
-    "DOC_LINK_EXPIRY_SECS": 600
-}
