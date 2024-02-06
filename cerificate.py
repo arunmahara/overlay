@@ -31,8 +31,6 @@ def get_font_size_and_position(text: str, is_hindi: bool) -> tuple:
 
 def create_certificate(name: str, in_hindi: str, output_path: str) -> None:
     try:
-        print(f"Creating certificate for {name} and saving to {output_path}")
-
         cerificate_path = "artifacts/cert_hindi.jpg" if in_hindi else "artifacts/cert_eng.jpg"
         font_path = "artifacts/font_hindi.ttf" if in_hindi else "artifacts/font_english.ttf"
 
@@ -42,13 +40,11 @@ def create_certificate(name: str, in_hindi: str, output_path: str) -> None:
 
         # text properties
         size, position = get_font_size_and_position(name, in_hindi)
-        print(f"Font size: {size}, position: {position}")
         font = ImageFont.truetype(font_path, size)
         color = (0, 0, 0)
 
         draw.text(position, name, fill=color, font=font)
 
         img.save(output_path)
-        print(f"Certificate created successfully to {output_path}")
     except Exception as e:
         raise e

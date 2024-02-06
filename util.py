@@ -13,9 +13,7 @@ def get_tmp_path():
 def remove_file(file_path):
     try:
         os.remove(file_path)
-        print(f"Removed {file_path}")
     except OSError:
-        print(f"Could not remove {file_path}")
         return
 
 

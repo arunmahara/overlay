@@ -8,6 +8,11 @@ from overlay import overlay_images
 from cerificate import create_certificate
 from s3 import get_signed_url, upload_file_to_s3
 from util import get_tmp_path, get_char_uuid, save_upload_file, temporary_files
+import logging
+
+
+logging.basicConfig(filename='logs/app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.getLogger(__name__)
 
 
 app = FastAPI()
@@ -24,6 +29,9 @@ async def overlay(
     config=Depends(load_config)
 ):
     try:
+        logging.info("/overlay/")
+        logging.info(f"Overlay request received")
+
         TMP_PATH = get_tmp_path()
         bg_path = f"{TMP_PATH}/{user_image.filename}"
         ov_path = "artifacts/overlay_image.png"
@@ -37,10 +45,12 @@ async def overlay(
 
             s3_key = upload_file_to_s3(output_path, output_image_name, config)
             url = get_signed_url(s3_key, config)
+            logging.info(f"Overlay request completed URL: {s3_key}")
 
             return {"url": url}
 
     except Exception as e:
+        logging.error(f"Error in overlay function: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -55,6 +65,9 @@ async def certificate(
     config=Depends(load_config)
 ):
     try:
+        logging.info("/certificate/")
+        logging.info(f"Certificate request received {request}")
+
         name = request.name
         in_hindi = request.in_hindi
 
@@ -68,8 +81,10 @@ async def certificate(
 
             s3_key = upload_file_to_s3(output_path, output_image_name, config)
             url = get_signed_url(s3_key, config)
+            logging.info(f"Certificate request completed URL: {s3_key}")
 
             return {"url": url}
 
     except Exception as e:
+        logging.error(f"Error in certificate function: {e}")
         raise HTTPException(status_code=500, detail=str(e))

@@ -3,8 +3,6 @@ from PIL import Image
 
 def overlay_images(bg_path: str, ov_path: str, output_path: str) -> None:
     try:
-        print(f"Overlaying {ov_path} on {bg_path} and saving to {output_path}")
-
         # Open the profile image
         profile = Image.open(bg_path)
 
@@ -25,8 +23,6 @@ def overlay_images(bg_path: str, ov_path: str, output_path: str) -> None:
 
         # Save the modified profile image
         profile.save(output_path)
-
-        print(f"Overlayed successful to {output_path}")
 
     except Exception as e:
         raise e

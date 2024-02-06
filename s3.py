@@ -20,10 +20,8 @@ def upload_file_to_s3(local_file_path: str, document_name: str, config: str):
         s3_document_folder = config['S3_DOCUMENT_FOLDER']
         s3_key = f"{s3_document_folder}/{document_name}"
 
-        print(f"Uploading {document_name} to {bucket_name}/{s3_document_folder}")
         s3_client = get_s3_client(config)
         s3_client.upload_file(local_file_path, bucket_name, s3_key, ExtraArgs={'ContentType': "image/jpeg"})
-        print(f"Uploaded successfully to {bucket_name}/{s3_key}")
 
         return s3_key
     except Exception as e:
