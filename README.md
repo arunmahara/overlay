@@ -24,3 +24,15 @@ curl --location 'http://127.0.0.1:9000/certificate/' \
     // "in_hindi": true
 }'
 ```
+
+```
+curl --location 'http://127.0.0.1:9000/v2/certificate/' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "Arun Mahara",
+    "in_hindi": false
+    
+    // "name": "अरुण महरा",
+    // "in_hindi": true
+}'
+```

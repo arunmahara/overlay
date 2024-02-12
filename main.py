@@ -77,7 +77,7 @@ async def certificate(
         output_path = f"{TMP_PATH}/{output_image_name}"
 
         with temporary_files(output_path):
-            create_certificate(name, in_hindi, output_path)
+            create_certificate(name, in_hindi, output_path, "v1")
 
             s3_key = upload_file_to_s3(output_path, output_image_name, config)
             url = get_signed_url(s3_key, config)
@@ -87,4 +87,35 @@ async def certificate(
 
     except Exception as e:
         logging.error(f"Error in certificate function: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/v2/certificate/")
+async def certificate(
+    request: CertificateRequest,
+    config=Depends(load_config)
+):
+    try:
+        logging.info("/v2/certificate/")
+        logging.info(f"V2 Certificate request received {request}")
+
+        name = request.name
+        in_hindi = request.in_hindi
+
+        TMP_PATH = get_tmp_path()
+
+        output_image_name = f"CERTIFICATE_V2_{name}_{get_char_uuid(10)}.jpg"
+        output_path = f"{TMP_PATH}/{output_image_name}"
+
+        with temporary_files(output_path):
+            create_certificate(name, in_hindi, output_path, "v2")
+
+            s3_key = upload_file_to_s3(output_path, output_image_name, config)
+            url = get_signed_url(s3_key, config)
+            logging.info(f"V2 Certificate request completed URL: {s3_key}")
+
+            return {"url": url}
+
+    except Exception as e:
+        logging.error(f"Error in v2 certificate function: {e}")
         raise HTTPException(status_code=500, detail=str(e))
