@@ -30,7 +30,7 @@ def get_font_size_and_position(text: str, is_hindi: bool, type: str) -> tuple:
                 return 70, (200, 290)
     else:
         if is_hindi:
-            return 36, (220, 240)
+            return 130, (910, 1020)
         else:
             return 40, (170, 260)
 
